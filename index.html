@@ -1,0 +1,112 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    html,
+    input,
+    button {
+      background-color: #efefef;
+      font-family: monospace;
+    }
+
+    #chat-messages {
+      line-height: 1.5;
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    #chat-messages>li {
+      /* subtle Shadow */
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: fit-content;
+    }
+
+    input[name="prompt"] {
+      background-color: white;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px
+    }
+
+    .user-message {
+      padding: 10px;
+      background-color: #DCF8C6;
+      align-self: end;
+    }
+
+    .bot-message {
+      padding: 0 10px 10px 10px;
+      background-color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>ChatGPT Client</h1>
+  <ul id="chat-messages"></ul>
+  <p id="thinking">ChatGPT is writing...</p>
+  <form>
+    <input autofocus autocomplete="off" rows="4" placeholder="Enter your message (Enter to send)" required min="1"
+      name="prompt" />
+    </textarea>
+    <!-- <button type="submit">Send Message</button> -->
+  </form>
+
+  <script>
+    const thinkingMessage = document.getElementById("thinking");
+    thinkingMessage.style.display = "none";
+    const messages = [];
+    const messageList = document.getElementById('chat-messages');
+    const form = document.querySelector('form')
+    form.addEventListener('submit', onSubmit)
+
+    // Make GET request to /chat endpoint and send "prompt" as query parameter
+    function appendUserMessage(text) {
+      const message = document.createElement('li');
+      message.innerText = text;
+      message.classList.add('message');
+      message.classList.add('user-message');
+      // append child at start
+      messageList.append(message);
+    }
+
+    function appendBotHTMLMessage(text) {
+      const message = document.createElement('li');
+      message.innerHTML = text;
+      message.classList.add('message');
+      message.classList.add('bot-message');
+      messageList.append(message);
+    }
+
+    function onSubmit(event) {
+      thinkingMessage.style.display = "block";
+      event.preventDefault();
+      const prompt = event.target.elements.prompt.value.trim();
+      if (prompt.length === 0) {
+        alert('Please enter a message');
+        return
+      }
+      event.target.reset();
+      appendUserMessage(prompt);
+      fetch(`/api/chat?prompt=${encodeURIComponent(prompt)}`, { method: 'GET' })
+        .then(response => response.text())
+        .then(data => {
+          thinkingMessage.style.display = "none";
+          appendBotHTMLMessage(data)
+        });
+    }
+  </script>
+
+</body>
+
+</html>
