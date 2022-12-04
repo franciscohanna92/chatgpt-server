@@ -27,7 +27,9 @@ const startBrowser = async () => {
   if (!isLoggedIn()) {
     console.log("Please log in to OpenAI Chat.");
     console.log("Press enter when you are done.");
-    // await new Promise((resolve) => process.stdin.once("data", resolve));
+
+    // Comment this line out if you don't want to wait to login for the API to start
+    await new Promise((resolve) => process.stdin.once("data", resolve));
   } else {
     console.log("Logged in.");
   }
