@@ -22,7 +22,7 @@ Make a request:
 curl http://localhost:5001/api/chat?prompt=Hello
 ```
 
-Response will be in HTML format. Something like:
+Response is `text/html`. For example:
 
 ```html
 <p>
