@@ -14,7 +14,7 @@ npm install
 npm start
 ```
 
-A Chromium browser will open. the ChatGPT home page. Login with your OpenAI account. Then, return to the temrinal and press `Enter`. The server will start on port `5001`.
+A Chromium browser will open with the ChatGPT home page. Login with your OpenAI account. Then, return to the temrinal and press `Enter`. The server will start on port `5001`.
 
 Make a request:
 
@@ -35,7 +35,7 @@ Response is `text/html`. For example:
 
 ## Demo client implementation
 
-Visit http://localhost:5001 on your browser for a demo client implementation (find the code in `index.html`)
+Visit http://localhost:5001 on your browser for a demo client implementation (`index.html`)
 
 <img src="./demo-screenshot.png" width="400">
 
